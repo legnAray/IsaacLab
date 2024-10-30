@@ -20,7 +20,6 @@ import pathlib
 
 ISAACLAB_DIR = pathlib.Path(__file__).parents[2]
 """Path to the Isaac Lab directory."""
-
 try:
     import isaacsim  # noqa: F401
 

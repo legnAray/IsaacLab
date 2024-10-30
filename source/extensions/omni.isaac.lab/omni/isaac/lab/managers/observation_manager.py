@@ -257,7 +257,8 @@ class ObservationManager(ManagerBase):
                 obs = obs.mul_(term_cfg.scale)
             # add value to list
             group_obs[name] = obs
-
+            # print("**"*20)
+            # print(f"obs shape of the {name} is {obs.shape}")
         # concatenate all observations in the group together
         if self._group_obs_concatenate[group_name]:
             return torch.cat(list(group_obs.values()), dim=-1)

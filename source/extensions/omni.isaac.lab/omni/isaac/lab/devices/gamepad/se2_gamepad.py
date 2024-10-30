@@ -164,13 +164,13 @@ class Se2Gamepad(DeviceBase):
             # backward command
             carb.input.GamepadInput.LEFT_STICK_DOWN: (1, 0, self.v_x_sensitivity),
             # right command
-            carb.input.GamepadInput.LEFT_STICK_RIGHT: (0, 1, self.v_y_sensitivity),
+            carb.input.GamepadInput.LEFT_STICK_RIGHT: (1, 1, self.v_y_sensitivity),
             # left command
-            carb.input.GamepadInput.LEFT_STICK_LEFT: (1, 1, self.v_y_sensitivity),
+            carb.input.GamepadInput.LEFT_STICK_LEFT: (0, 1, self.v_y_sensitivity),
             # yaw command (positive)
-            carb.input.GamepadInput.RIGHT_STICK_RIGHT: (0, 2, self.omega_z_sensitivity),
+            carb.input.GamepadInput.RIGHT_STICK_RIGHT: (1, 2, self.omega_z_sensitivity),
             # yaw command (negative)
-            carb.input.GamepadInput.RIGHT_STICK_LEFT: (1, 2, self.omega_z_sensitivity),
+            carb.input.GamepadInput.RIGHT_STICK_LEFT: (0, 2, self.omega_z_sensitivity),
         }
 
     def _resolve_command_buffer(self, raw_command: np.ndarray) -> np.ndarray:

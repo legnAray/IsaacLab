@@ -111,6 +111,7 @@ def main():
         with torch.inference_mode():
             # get keyboard command
             delta_pose, gripper_command = teleop_interface.advance()
+            print(delta_pose)
             delta_pose = delta_pose.astype("float32")
             # convert to torch
             delta_pose = torch.tensor(delta_pose, device=env.unwrapped.device).repeat(env.unwrapped.num_envs, 1)
