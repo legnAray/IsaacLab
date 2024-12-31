@@ -120,6 +120,8 @@ class CubeActionTerm(ActionTerm):
 
     def apply_actions(self):
         # implement a PD controller to track the target position
+        pos_error = self._processed_actions - (self._asset.data.root_link_pos_w - self._env.scene.env_origins)
+        vel_error = -self._asset.data.root_com_lin_vel_w
         pos_error = self._processed_actions - (self._asset.data.root_pos_w - self._env.scene.env_origins)
         print("----"*10)
         print("_processed_actions", self._processed_actions)
@@ -129,7 +131,7 @@ class CubeActionTerm(ActionTerm):
         vel_error = -self._asset.data.root_lin_vel_w
         # set velocity targets
         self._vel_command[:, :3] = self.p_gain * pos_error + self.d_gain * vel_error
-        self._asset.write_root_velocity_to_sim(self._vel_command)
+        self._asset.write_root_com_velocity_to_sim(self._vel_command)
 
 
 @configclass
@@ -154,7 +156,7 @@ def base_position(env: ManagerBasedEnv, asset_cfg: SceneEntityCfg) -> torch.Tens
     """Root linear velocity in the asset's root frame."""
     # extract the used quantities (to enable type-hinting)
     asset: RigidObject = env.scene[asset_cfg.name]
-    return asset.data.root_pos_w - env.scene.env_origins
+    return asset.data.root_link_pos_w - env.scene.env_origins
 
 
 ##
@@ -275,8 +277,6 @@ def main():
 
     # setup target position commands
     target_position = torch.rand(env.num_envs, 3, device=env.device) * 2
-    # 计算的是本体坐标系下的目标位置，env_origins是世界坐标系下的原点位置
-    # target_position = torch.zeros(env.num_envs, 3, device=env.device)
     target_position[:, 2] += 2.0
     # offset all targets so that they move to the world origin
     target_position -= env.scene.env_origins
