@@ -162,6 +162,7 @@ def main():
             contact_sensor.update(sim_dt, force_recompute=True)
             if count % 100 == 0:
                 print("Sim-time: ", sim_time)
+                print(contact_sensor.data.current_air_time)
                 print("Number of contacts: ", torch.count_nonzero(contact_sensor.data.current_air_time == 0.0).item())
                 print("-" * 80)
 
